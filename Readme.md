@@ -24,7 +24,7 @@ Initialize the repository with
 
  `git submodule update --init --recursive`
 
-Install the normal Linux SGX SDK in `/opt/intel` by following this [README.md](linux-sgx/README.md)
+Install the normal Linux SGX SDK in `/opt/intel` by following this [README.md](https://github.com/intel/linux-sgx/blob/34421657a370c00a1a55fbf8ee29b2a1a07663e8/README.md)
 
 To build a sample project, navigate to `SampleCode/verify_xxx` and run:
 
