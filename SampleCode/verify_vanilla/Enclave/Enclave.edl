@@ -1,13 +1,32 @@
-enclave {
+/*
+ * Copyright 2019 Samuel Weiser <samuel.weiser@iaik.tugraz.at>
 
-    /* 
-     * Following types can be supported in Edger8r: 
-     *      char, short, int, float, double, void, 
-     *      int8_t, int16_t, int32_t, int64_t,
-     *      size_t, wchar_t, 
-     *      uint8_t, uint16_t, uint32_t, uint64_t, 
-     *      unsigned, struct, enum, union.
-     */
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *   2. Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived
+ *      from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+enclave {
 
     struct struct_t {
         uint16_t x;
@@ -28,7 +47,6 @@ enclave {
     };
 
     trusted {
-        /* define ECALLs here. */
         public void testEcall0();
         public int testEcall1(char a, int b, float c, double d, size_t e, wchar_t f);
         public int testEcall2(struct struct_t a, enum enum_t b, enum enum_t c, enum enum_t d, union union_t u);
@@ -42,13 +60,6 @@ enclave {
 
     untrusted {
         void ocall_print_string([in, string] const char *str);
-        /*
-         * [allow]:
-         *      OCALL 'ocall_function_allow' can invoke ECALL 'ecall_function_private' in App side. 
-         *
-         * Note: No ECALL can be called in OCALL w/o [allow].
-         */
-        //void ocall_function_allow(void) allow(ecall_function_private);
         void ocall0();
         int ocall1(char a, int b, float c, double d, size_t e, wchar_t f);
         int ocall2(struct struct_t a, enum enum_t b, enum enum_t c, enum enum_t d, union union_t u);
@@ -58,5 +69,3 @@ enclave {
         int testOcallRecursive(int level,[in] int a[2], [out] int b[2]) allow(testEcallRecursive);
     };
 };
-
-// TODO: array
