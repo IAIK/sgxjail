@@ -1,0 +1,13 @@
+# Enclave build artifacts
+*.o
+*.so
+app
+app_s
+App_s.cpp
+*_u.c
+*_u.h
+*_us.c
+*_us.h
+*_t.c
+*_t.h
+.config*

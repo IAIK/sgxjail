@@ -1,0 +1,62 @@
+enclave {
+
+    /* 
+     * Following types can be supported in Edger8r: 
+     *      char, short, int, float, double, void, 
+     *      int8_t, int16_t, int32_t, int64_t,
+     *      size_t, wchar_t, 
+     *      uint8_t, uint16_t, uint32_t, uint64_t, 
+     *      unsigned, struct, enum, union.
+     */
+
+    struct struct_t {
+        uint16_t x;
+        uint32_t y;
+        uint64_t z;
+    };
+
+    enum enum_t {
+        ENUM_X = 0,
+        ENUM_Y = 1,
+        ENUM_Z = 1000
+    };
+
+    union union_t {
+        uint64_t x;
+        uint64_t y;
+        uint64_t z;
+    };
+
+    trusted {
+        /* define ECALLs here. */
+        public void testEcall0();
+        public int testEcall1(char a, int b, float c, double d, size_t e, wchar_t f);
+        public int testEcall2(struct struct_t a, enum enum_t b, enum enum_t c, enum enum_t d, union union_t u);
+        public int testEcall3([in] int a[2], [out] int b[2], [in,out] int c[2]);
+        public int testEcall4([in, string] char* s1, [in, string] const char* s2, [in, out, string] char* s3);
+        public int testOcallSimple(char dummy);
+        public int testEcallNested1(int level, [in] int a[2], [out] int b[2]);
+        public int testEcallNested2(int level, [in] int a[2], [out] int b[2]);
+        public int testEcallRecursive(int level,[in] int a[2], [out] int b[2]);
+    };
+
+    untrusted {
+        void ocall_print_string([in, string] const char *str);
+        /*
+         * [allow]:
+         *      OCALL 'ocall_function_allow' can invoke ECALL 'ecall_function_private' in App side. 
+         *
+         * Note: No ECALL can be called in OCALL w/o [allow].
+         */
+        //void ocall_function_allow(void) allow(ecall_function_private);
+        void ocall0();
+        int ocall1(char a, int b, float c, double d, size_t e, wchar_t f);
+        int ocall2(struct struct_t a, enum enum_t b, enum enum_t c, enum enum_t d, union union_t u);
+        int ocall3([in] int a[2], [out] int b[2], [in,out] int c[2]);
+        int testOcallNested1(int level,[in] int a[2], [out] int b[2]) allow(testEcallNested2);
+        int testOcallNested2(int level,[in] int a[2], [out] int b[2]);
+        int testOcallRecursive(int level,[in] int a[2], [out] int b[2]) allow(testEcallRecursive);
+    };
+};
+
+// TODO: array

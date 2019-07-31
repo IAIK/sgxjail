@@ -1,0 +1,7 @@
+[submodule "sgxjail-sdk"]
+	path = sgxjail-sdk
+	url = https://github.com/IAIK/sgxjail-sdk.git
+	branch = sgxjail
+[submodule "linux-sgx"]
+	path = linux-sgx
+	url = https://github.com/intel/linux-sgx
